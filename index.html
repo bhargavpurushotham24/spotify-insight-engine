@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!-- saved from url=(0053)file:///C:/Users/bharg/Downloads/review-analysis.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Moodwave — Discover Music That Fits Right Now</title>
 <style>
@@ -564,7 +564,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 <div class="setup-panel">
   <span class="setup-label">API Key</span>
-  <input type="password" id="apiKey" placeholder="sk-ant-... (Anthropic API key)">
+  <input type="password" id="apiKey" placeholder="sk-... (Anthropic API key)" />
 </div>
 
 <div class="hero">
@@ -577,42 +577,42 @@ input[type="range"]::-webkit-slider-thumb {
 
   <div class="section-label">How are you feeling?</div>
   <div class="mood-grid">
-    <button class="mood-btn" onclick="selectMood(this, &#39;energized&#39;)" data-mood="energized">
+    <button class="mood-btn" onclick="selectMood(this, 'energized')" data-mood="energized">
       <div class="mood-emoji">⚡</div>
       <div class="mood-name">Energized</div>
       <div class="mood-desc">Ready to move, high energy</div>
     </button>
-    <button class="mood-btn" onclick="selectMood(this, &#39;calm&#39;)" data-mood="calm">
+    <button class="mood-btn" onclick="selectMood(this, 'calm')" data-mood="calm">
       <div class="mood-emoji">🌊</div>
       <div class="mood-name">Calm</div>
       <div class="mood-desc">Relaxed, at peace</div>
     </button>
-    <button class="mood-btn" onclick="selectMood(this, &#39;focused&#39;)" data-mood="focused">
+    <button class="mood-btn" onclick="selectMood(this, 'focused')" data-mood="focused">
       <div class="mood-emoji">🎯</div>
       <div class="mood-name">Focused</div>
       <div class="mood-desc">Deep work mode</div>
     </button>
-    <button class="mood-btn" onclick="selectMood(this, &#39;melancholic&#39;)" data-mood="melancholic">
+    <button class="mood-btn" onclick="selectMood(this, 'melancholic')" data-mood="melancholic">
       <div class="mood-emoji">🌧️</div>
       <div class="mood-name">Melancholic</div>
       <div class="mood-desc">Reflective, bittersweet</div>
     </button>
-    <button class="mood-btn" onclick="selectMood(this, &#39;happy&#39;)" data-mood="happy">
+    <button class="mood-btn" onclick="selectMood(this, 'happy')" data-mood="happy">
       <div class="mood-emoji">☀️</div>
       <div class="mood-name">Happy</div>
       <div class="mood-desc">Good vibes, uplifted</div>
     </button>
-    <button class="mood-btn" onclick="selectMood(this, &#39;nostalgic&#39;)" data-mood="nostalgic">
+    <button class="mood-btn" onclick="selectMood(this, 'nostalgic')" data-mood="nostalgic">
       <div class="mood-emoji">🎞️</div>
       <div class="mood-name">Nostalgic</div>
       <div class="mood-desc">Missing something, warm</div>
     </button>
-    <button class="mood-btn" onclick="selectMood(this, &#39;restless&#39;)" data-mood="restless">
+    <button class="mood-btn" onclick="selectMood(this, 'restless')" data-mood="restless">
       <div class="mood-emoji">🌀</div>
       <div class="mood-name">Restless</div>
       <div class="mood-desc">Can't settle, searching</div>
     </button>
-    <button class="mood-btn" onclick="selectMood(this, &#39;social&#39;)" data-mood="social">
+    <button class="mood-btn" onclick="selectMood(this, 'social')" data-mood="social">
       <div class="mood-emoji">🎉</div>
       <div class="mood-name">Social</div>
       <div class="mood-desc">With people, celebratory</div>
@@ -621,20 +621,21 @@ input[type="range"]::-webkit-slider-thumb {
 
   <div class="section-label">What are you doing?</div>
   <div class="context-row">
-    <button class="ctx-btn" onclick="selectCtx(this, &#39;working out&#39;)">🏋️ Working out</button>
-    <button class="ctx-btn" onclick="selectCtx(this, &#39;commuting&#39;)">🚇 Commuting</button>
-    <button class="ctx-btn" onclick="selectCtx(this, &#39;studying or working&#39;)">💻 Studying / Working</button>
-    <button class="ctx-btn" onclick="selectCtx(this, &#39;cooking or eating&#39;)">🍳 Cooking</button>
-    <button class="ctx-btn" onclick="selectCtx(this, &#39;winding down before sleep&#39;)">🌙 Winding down</button>
-    <button class="ctx-btn" onclick="selectCtx(this, &#39;just browsing, no specific activity&#39;)">✨ Just vibing</button>
+    <button class="ctx-btn" onclick="selectCtx(this, 'working out')">🏋️ Working out</button>
+    <button class="ctx-btn" onclick="selectCtx(this, 'commuting')">🚇 Commuting</button>
+    <button class="ctx-btn" onclick="selectCtx(this, 'studying or working')">💻 Studying / Working</button>
+    <button class="ctx-btn" onclick="selectCtx(this, 'cooking or eating')">🍳 Cooking</button>
+    <button class="ctx-btn" onclick="selectCtx(this, 'winding down before sleep')">🌙 Winding down</button>
+    <button class="ctx-btn" onclick="selectCtx(this, 'just browsing, no specific activity')">✨ Just vibing</button>
   </div>
 
   <div class="slider-section">
     <div class="slider-header">
       <span class="slider-title">How adventurous do you feel today?</span>
-      <span class="slider-value" id="sliderLabel">Mix of familiar &amp; new</span>
+      <span class="slider-value" id="sliderLabel">Mix of familiar & new</span>
     </div>
-    <input type="range" id="adventureSlider" min="1" max="5" value="3" oninput="updateSlider(this.value)">
+    <input type="range" id="adventureSlider" min="1" max="5" value="3"
+      oninput="updateSlider(this.value)" />
     <div class="slider-labels">
       <span>Keep it familiar</span>
       <span>Surprise me completely</span>
@@ -758,15 +759,15 @@ Return ONLY valid JSON in this exact format, no markdown:
 }`;
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01'
+        'Authorization': 'Bearer ' + apiKey,
+        
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
+        model: "gpt-4o-mini",
         max_tokens: 1000,
         messages: [{ role: 'user', content: prompt }]
       })
@@ -780,7 +781,7 @@ Return ONLY valid JSON in this exact format, no markdown:
     }
 
     const data = await res.json();
-    const text = data.content[0].text;
+    const text = data.choices[0].message.content;
     const clean = text.replace(/```json|```/g, '').trim();
     const result = JSON.parse(clean);
 
@@ -844,6 +845,5 @@ function resetAll() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 </script>
-
-
-</body></html>
+</body>
+</html>
