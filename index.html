@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<!-- saved from url=(0053)file:///C:/Users/bharg/Downloads/review-analysis.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moodwave — Discover Music That Fits Right Now</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap');
+
+:root {
+  --bg: #0c0c0f;
+  --surface: #141418;
+  --surface2: #1c1c22;
+  --border: #2a2a35;
+  --green: #1DB954;
+  --green-glow: rgba(29,185,84,0.15);
+  --purple: #7B5EA7;
+  --amber: #F59E0B;
+  --text: #f0f0f0;
+  --muted: #888899;
+  --display: 'Syne', sans-serif;
+  --body: 'Inter', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Ambient background */
+body::before {
+  content: '';
+  position: fixed;
+  top: -200px; left: 50%;
+  transform: translateX(-50%);
+  width: 800px; height: 600px;
+  background: radial-gradient(ellipse, rgba(29,185,84,0.06) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+header {
+  position: relative; z-index: 10;
+  padding: 20px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+
+.wordmark {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+
+.wordmark span { color: var(--green); }
+
+.badge {
+  font-size: 11px;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 4px 12px;
+  letter-spacing: 0.05em;
+}
+
+/* Setup panel */
+.setup-panel {
+  position: relative; z-index: 10;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.setup-panel input {
+  flex: 1;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 12px;
+  padding: 8px 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.setup-panel input:focus { border-color: var(--green); }
+.setup-panel input::placeholder { color: #444; }
+
+.setup-label {
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* Hero */
+.hero {
+  position: relative; z-index: 10;
+  text-align: center;
+  padding: 56px 24px 40px;
+}
+
+.hero-eyebrow {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 20px;
+  padding: 6px 16px;
+  border: 1px solid rgba(29,185,84,0.3);
+  border-radius: 20px;
+}
+
+.hero h1 {
+  font-family: var(--display);
+  font-size: clamp(36px, 6vw, 64px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  margin-bottom: 16px;
+}
+
+.hero h1 em {
+  font-style: normal;
+  color: var(--green);
+}
+
+.hero p {
+  font-size: 16px;
+  color: var(--muted);
+  max-width: 440px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Mood selector */
+.mood-section {
+  position: relative; z-index: 10;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 24px 40px;
+}
+
+.section-label {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.mood-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.mood-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.mood-btn:hover {
+  border-color: var(--green);
+  background: var(--green-glow);
+  transform: translateY(-2px);
+}
+
+.mood-btn.selected {
+  border-color: var(--green);
+  background: var(--green-glow);
+  box-shadow: 0 0 20px rgba(29,185,84,0.15);
+}
+
+.mood-emoji { font-size: 28px; line-height: 1; }
+
+.mood-name {
+  font-family: var(--display);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.mood-desc {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.3;
+}
+
+/* Context row */
+.context-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.ctx-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--muted);
+  font-size: 13px;
+  padding: 8px 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--body);
+}
+
+.ctx-btn:hover { border-color: var(--purple); color: var(--text); }
+
+.ctx-btn.selected {
+  border-color: var(--purple);
+  background: rgba(123,94,167,0.15);
+  color: var(--text);
+}
+
+/* Familiarity slider */
+.slider-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin-bottom: 28px;
+}
+
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.slider-title {
+  font-size: 13px;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.slider-value {
+  font-size: 12px;
+  color: var(--green);
+  font-weight: 600;
+}
+
+input[type="range"] {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  outline: none;
+  margin-bottom: 8px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--green);
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(29,185,84,0.4);
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* Discover button */
+.discover-btn {
+  width: 100%;
+  background: var(--green);
+  color: #000;
+  border: none;
+  border-radius: 14px;
+  font-family: var(--display);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  padding: 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.discover-btn:hover {
+  background: #1ed760;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(29,185,84,0.3);
+}
+
+.discover-btn:active { transform: translateY(0); }
+.discover-btn:disabled { background: #2a2a2a; color: #555; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* Loading */
+.loading-section {
+  display: none;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 24px 40px;
+  text-align: center;
+}
+
+.loading-section.active { display: block; }
+
+.loading-animation {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.dot {
+  width: 8px; height: 8px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: bounce 1.2s infinite;
+}
+
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+  40% { transform: translateY(-12px); opacity: 1; }
+}
+
+.loading-text {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.loading-sub {
+  font-size: 12px;
+  color: #555;
+}
+
+/* Results */
+.results-section {
+  display: none;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 24px 64px;
+}
+
+.results-section.active { display: block; }
+
+.results-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.results-title {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.results-meta {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.reset-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 8px;
+  font-size: 12px;
+  padding: 7px 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--body);
+}
+
+.reset-btn:hover { border-color: var(--text); color: var(--text); }
+
+.why-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--green);
+  border-radius: 0 12px 12px 0;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.why-box strong { color: var(--text); }
+
+.songs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.song-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  transition: border-color 0.2s;
+  animation: fadeUp 0.4s ease both;
+}
+
+.song-card:hover { border-color: var(--green); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.song-card:nth-child(2) { animation-delay: 0.08s; }
+.song-card:nth-child(3) { animation-delay: 0.16s; }
+.song-card:nth-child(4) { animation-delay: 0.24s; }
+.song-card:nth-child(5) { animation-delay: 0.32s; }
+.song-card:nth-child(6) { animation-delay: 0.4s; }
+.song-card:nth-child(7) { animation-delay: 0.48s; }
+
+.song-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  gap: 12px;
+}
+
+.song-info { flex: 1; }
+
+.song-title {
+  font-family: var(--display);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 2px;
+}
+
+.song-artist {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.song-number {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--border);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.song-why {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.song-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  letter-spacing: 0.03em;
+}
+
+.tag.mood { border-color: rgba(29,185,84,0.4); color: var(--green); }
+.tag.new { border-color: rgba(123,94,167,0.4); color: #a78bdb; }
+.tag.energy { border-color: rgba(245,158,11,0.3); color: var(--amber); }
+
+.search-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--green);
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.search-link:hover { opacity: 1; }
+
+.error-box {
+  display: none;
+  background: #1a0808;
+  border: 1px solid #5a1a1a;
+  border-radius: 10px;
+  padding: 14px 18px;
+  font-size: 13px;
+  color: #ff6b6b;
+  margin-bottom: 16px;
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative; z-index: 10;
+}
+
+.error-box.active { display: block; }
+
+@media (max-width: 600px) {
+  .mood-grid { grid-template-columns: repeat(2, 1fr); }
+  header { padding: 16px 20px; }
+  .hero { padding: 40px 20px 32px; }
+  .mood-section, .results-section, .loading-section { padding-left: 20px; padding-right: 20px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wordmark">mood<span>wave</span></div>
+  <div class="badge">Spotify Discovery · AI Concept</div>
+</header>
+
+<div class="setup-panel">
+  <span class="setup-label">API Key</span>
+  <input type="password" id="apiKey" placeholder="sk-ant-... (Anthropic API key)">
+</div>
+
+<div class="hero">
+  <div class="hero-eyebrow">AI-Powered Music Discovery</div>
+  <h1>Music that fits<br><em>right now.</em></h1>
+  <p>Tell Moodwave how you feel and what you're doing. Get songs you've never heard — chosen for this exact moment, not your history.</p>
+</div>
+
+<div class="mood-section">
+
+  <div class="section-label">How are you feeling?</div>
+  <div class="mood-grid">
+    <button class="mood-btn" onclick="selectMood(this, &#39;energized&#39;)" data-mood="energized">
+      <div class="mood-emoji">⚡</div>
+      <div class="mood-name">Energized</div>
+      <div class="mood-desc">Ready to move, high energy</div>
+    </button>
+    <button class="mood-btn" onclick="selectMood(this, &#39;calm&#39;)" data-mood="calm">
+      <div class="mood-emoji">🌊</div>
+      <div class="mood-name">Calm</div>
+      <div class="mood-desc">Relaxed, at peace</div>
+    </button>
+    <button class="mood-btn" onclick="selectMood(this, &#39;focused&#39;)" data-mood="focused">
+      <div class="mood-emoji">🎯</div>
+      <div class="mood-name">Focused</div>
+      <div class="mood-desc">Deep work mode</div>
+    </button>
+    <button class="mood-btn" onclick="selectMood(this, &#39;melancholic&#39;)" data-mood="melancholic">
+      <div class="mood-emoji">🌧️</div>
+      <div class="mood-name">Melancholic</div>
+      <div class="mood-desc">Reflective, bittersweet</div>
+    </button>
+    <button class="mood-btn" onclick="selectMood(this, &#39;happy&#39;)" data-mood="happy">
+      <div class="mood-emoji">☀️</div>
+      <div class="mood-name">Happy</div>
+      <div class="mood-desc">Good vibes, uplifted</div>
+    </button>
+    <button class="mood-btn" onclick="selectMood(this, &#39;nostalgic&#39;)" data-mood="nostalgic">
+      <div class="mood-emoji">🎞️</div>
+      <div class="mood-name">Nostalgic</div>
+      <div class="mood-desc">Missing something, warm</div>
+    </button>
+    <button class="mood-btn" onclick="selectMood(this, &#39;restless&#39;)" data-mood="restless">
+      <div class="mood-emoji">🌀</div>
+      <div class="mood-name">Restless</div>
+      <div class="mood-desc">Can't settle, searching</div>
+    </button>
+    <button class="mood-btn" onclick="selectMood(this, &#39;social&#39;)" data-mood="social">
+      <div class="mood-emoji">🎉</div>
+      <div class="mood-name">Social</div>
+      <div class="mood-desc">With people, celebratory</div>
+    </button>
+  </div>
+
+  <div class="section-label">What are you doing?</div>
+  <div class="context-row">
+    <button class="ctx-btn" onclick="selectCtx(this, &#39;working out&#39;)">🏋️ Working out</button>
+    <button class="ctx-btn" onclick="selectCtx(this, &#39;commuting&#39;)">🚇 Commuting</button>
+    <button class="ctx-btn" onclick="selectCtx(this, &#39;studying or working&#39;)">💻 Studying / Working</button>
+    <button class="ctx-btn" onclick="selectCtx(this, &#39;cooking or eating&#39;)">🍳 Cooking</button>
+    <button class="ctx-btn" onclick="selectCtx(this, &#39;winding down before sleep&#39;)">🌙 Winding down</button>
+    <button class="ctx-btn" onclick="selectCtx(this, &#39;just browsing, no specific activity&#39;)">✨ Just vibing</button>
+  </div>
+
+  <div class="slider-section">
+    <div class="slider-header">
+      <span class="slider-title">How adventurous do you feel today?</span>
+      <span class="slider-value" id="sliderLabel">Mix of familiar &amp; new</span>
+    </div>
+    <input type="range" id="adventureSlider" min="1" max="5" value="3" oninput="updateSlider(this.value)">
+    <div class="slider-labels">
+      <span>Keep it familiar</span>
+      <span>Surprise me completely</span>
+    </div>
+  </div>
+
+  <div class="error-box" id="errorBox"></div>
+
+  <button class="discover-btn" id="discoverBtn" onclick="discover()">
+    Find my music →
+  </button>
+
+</div>
+
+<div class="loading-section" id="loadingSection">
+  <div class="loading-animation">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+  <div class="loading-text" id="loadingText">Reading your mood...</div>
+  <div class="loading-sub">Finding songs you haven't heard yet</div>
+</div>
+
+<div class="results-section" id="resultsSection">
+  <div class="results-header">
+    <div>
+      <div class="results-title" id="resultsTitle">Your discovery playlist</div>
+      <div class="results-meta" id="resultsMeta"></div>
+    </div>
+    <button class="reset-btn" onclick="resetAll()">Try again</button>
+  </div>
+  <div class="why-box" id="whyBox"></div>
+  <div class="songs-list" id="songsList"></div>
+</div>
+
+<script>
+let selectedMood = null;
+let selectedCtx = null;
+
+const sliderLabels = {
+  1: 'Very familiar — stay close to what I know',
+  2: 'Mostly familiar with small surprises',
+  3: 'Mix of familiar & new',
+  4: 'Lean towards new discoveries',
+  5: 'Surprise me completely'
+};
+
+function updateSlider(v) {
+  document.getElementById('sliderLabel').textContent = sliderLabels[v];
+}
+
+function selectMood(btn, mood) {
+  document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedMood = mood;
+}
+
+function selectCtx(btn, ctx) {
+  document.querySelectorAll('.ctx-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedCtx = ctx;
+}
+
+function showError(msg) {
+  const box = document.getElementById('errorBox');
+  box.textContent = msg;
+  box.classList.add('active');
+}
+
+function hideError() {
+  document.getElementById('errorBox').classList.remove('active');
+}
+
+async function discover() {
+  hideError();
+
+  const apiKey = document.getElementById('apiKey').value.trim();
+  const adventure = document.getElementById('adventureSlider').value;
+
+  if (!apiKey) return showError('Please enter your Anthropic API key at the top.');
+  if (!selectedMood) return showError('Please select a mood first.');
+  if (!selectedCtx) return showError('Please select what you\'re doing.');
+
+  const btn = document.getElementById('discoverBtn');
+  btn.disabled = true;
+
+  document.querySelector('.mood-section').style.opacity = '0.4';
+  document.querySelector('.mood-section').style.pointerEvents = 'none';
+  document.getElementById('loadingSection').classList.add('active');
+  document.getElementById('resultsSection').classList.remove('active');
+
+  const steps = ['Reading your mood...', 'Thinking beyond your history...', 'Finding the right songs...', 'Almost there...'];
+  let step = 0;
+  const interval = setInterval(() => {
+    if (step < steps.length) {
+      document.getElementById('loadingText').textContent = steps[step++];
+    }
+  }, 2000);
+
+  const prompt = `You are a music discovery expert. A Spotify user wants to discover new music they have NEVER heard before.
+
+Their current mood: ${selectedMood}
+What they're doing: ${selectedCtx}
+Discovery level (1=familiar, 5=totally new): ${adventure}/5
+
+Your job: Recommend exactly 7 songs that PERFECTLY fit this mood and context. These should be real songs — prioritize lesser-known tracks, deep cuts, and artists the user likely hasn't discovered yet. Avoid top 40 hits or extremely famous songs unless they're deep cuts.
+
+Return ONLY valid JSON in this exact format, no markdown:
+{
+  "playlist_title": "A short evocative title for this moment (5 words max)",
+  "why": "2 sentences explaining the mood logic behind these picks — what sonic qualities you're going for and why they fit this exact moment",
+  "songs": [
+    {
+      "title": "Song Title",
+      "artist": "Artist Name",
+      "why": "1-2 sentences: why this specific song fits this mood/context right now. Be specific about sonic qualities, tempo, feeling.",
+      "tags": ["mood tag", "energy tag", "genre tag"]
+    }
+  ]
+}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    clearInterval(interval);
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error?.message || 'API error');
+    }
+
+    const data = await res.json();
+    const text = data.content[0].text;
+    const clean = text.replace(/```json|```/g, '').trim();
+    const result = JSON.parse(clean);
+
+    renderResults(result);
+
+  } catch(err) {
+    clearInterval(interval);
+    document.getElementById('loadingSection').classList.remove('active');
+    document.querySelector('.mood-section').style.opacity = '1';
+    document.querySelector('.mood-section').style.pointerEvents = 'auto';
+    showError('Something went wrong: ' + err.message);
+    btn.disabled = false;
+  }
+}
+
+function renderResults(data) {
+  document.getElementById('loadingSection').classList.remove('active');
+
+  document.getElementById('resultsTitle').textContent = data.playlist_title || 'Your discovery playlist';
+  document.getElementById('resultsMeta').textContent =
+    `${selectedMood} mood · ${selectedCtx} · ${document.getElementById('adventureSlider').value === '5' ? 'maximum discovery' : 'curated for now'}`;
+
+  document.getElementById('whyBox').innerHTML =
+    `<strong>Why these songs:</strong> ${data.why}`;
+
+  const list = document.getElementById('songsList');
+  list.innerHTML = (data.songs || []).map((song, i) => `
+    <div class="song-card">
+      <div class="song-top">
+        <div class="song-info">
+          <div class="song-title">${song.title}</div>
+          <div class="song-artist">${song.artist}</div>
+        </div>
+        <div class="song-number">0${i + 1}</div>
+      </div>
+      <div class="song-why">${song.why}</div>
+      <div class="song-tags">
+        ${(song.tags || []).map((t, ti) => `<span class="tag ${ti === 0 ? 'mood' : ti === 1 ? 'energy' : 'new'}">${t}</span>`).join('')}
+      </div>
+      <a class="search-link" href="https://open.spotify.com/search/${encodeURIComponent(song.title + ' ' + song.artist)}" target="_blank">
+        ↗ Find on Spotify
+      </a>
+    </div>
+  `).join('');
+
+  document.getElementById('resultsSection').classList.add('active');
+  document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+
+  document.getElementById('discoverBtn').disabled = false;
+  document.querySelector('.mood-section').style.opacity = '1';
+  document.querySelector('.mood-section').style.pointerEvents = 'auto';
+}
+
+function resetAll() {
+  document.getElementById('resultsSection').classList.remove('active');
+  document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('.ctx-btn').forEach(b => b.classList.remove('selected'));
+  selectedMood = null;
+  selectedCtx = null;
+  hideError();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+
+</body></html>
