@@ -564,7 +564,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 <div class="setup-panel">
   <span class="setup-label">API Key</span>
-  <input type="password" id="apiKey" placeholder="sk-... (Anthropic API key)" />
+  <input type="password" id="apiKey" placeholder="AIza... (Gemini API key)" />
 </div>
 
 <div class="hero">
@@ -716,7 +716,7 @@ async function discover() {
   const apiKey = document.getElementById('apiKey').value.trim();
   const adventure = document.getElementById('adventureSlider').value;
 
-  if (!apiKey) return showError('Please enter your Anthropic API key at the top.');
+  if (!apiKey) return showError('Please enter your Gemini API key at the top.');
   if (!selectedMood) return showError('Please select a mood first.');
   if (!selectedCtx) return showError('Please select what you\'re doing.');
 
@@ -759,15 +759,15 @@ Return ONLY valid JSON in this exact format, no markdown:
 }`;
 
   try {
-    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+    const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' + apiKey, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + apiKey,
+        
         
       },
       body: JSON.stringify({
-        model: "gpt-4o-mini",
+        model: 'gemini-1.5-flash',
         max_tokens: 1000,
         messages: [{ role: 'user', content: prompt }]
       })
@@ -781,7 +781,7 @@ Return ONLY valid JSON in this exact format, no markdown:
     }
 
     const data = await res.json();
-    const text = data.choices[0].message.content;
+    const text = data.candidates[0].content.parts[0].text;
     const clean = text.replace(/```json|```/g, '').trim();
     const result = JSON.parse(clean);
 
